@@ -1,0 +1,43 @@
+Node / Next
+
+node_modules/
+.next/
+.out/
+dist/
+.build/
+.turbo/
+.vercel/
+.pnpm-store/
+.pnp.*
+.npm/
+.yarn/
+**/.DS_Store
+
+Accidental vendor folders (This block fixes your large file issue)
+
+ignored_node_modules/
+.ignored_node_modules/
+/@next/swc-*/
+**/*.node
+
+Env & local
+
+.env
+.env.*
+!.env.example
+
+Logs & coverage
+
+logs/
+.log
+npm-debug.log
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+coverage/
+.vscode/
+.idea/
+
+Upload caches
+
+public/tmp/
