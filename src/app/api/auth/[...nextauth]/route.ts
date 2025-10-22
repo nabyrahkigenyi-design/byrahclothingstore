@@ -1,4 +1,3 @@
-// src/app/api/auth/[...nextauth]/route.ts
 import makeAuthHandler from "@/lib/auth"
 
 const handler = makeAuthHandler()

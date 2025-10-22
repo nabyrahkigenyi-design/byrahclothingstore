@@ -1,10 +1,9 @@
 // src/lib/auth.ts
-import type { NextAuthOptions } from "next-auth"
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import EmailProvider from "next-auth/providers/email"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { getServerSession } from "next-auth"
+import { getServerSession, type NextAuthOptions } from "next-auth"
 import { db } from "@/lib/prisma"
 import { Resend } from "resend"
 
@@ -51,12 +50,12 @@ export const authOptions: NextAuthOptions = {
   },
 }
 
-// helper for Server Components / server actions
+// helper for RSC / server actions
 export function getSession() {
   return getServerSession(authOptions)
 }
 
-// only used by the API route file below (do NOT destructure here)
+// API route handler factory (v4)
 export default function makeAuthHandler() {
   return NextAuth(authOptions)
 }

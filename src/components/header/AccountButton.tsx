@@ -1,4 +1,3 @@
-// example: src/components/header/AccountButton.tsx
 import Link from "next/link"
 import { User } from "lucide-react"
 import { getSession } from "@/lib/auth"
