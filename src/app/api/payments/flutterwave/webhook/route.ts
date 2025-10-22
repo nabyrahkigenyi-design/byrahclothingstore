@@ -1,11 +1,7 @@
-export const runtime = 'nodejs'
-
 
 import { NextResponse } from 'next/server'
-import crypto from 'crypto'
 import { db } from '@/lib/prisma'
 import { sendMail } from '@/server/mailer'
-
 
 export async function POST(req: Request){
 const secret = process.env.FLW_WEBHOOK_SECRET as string
