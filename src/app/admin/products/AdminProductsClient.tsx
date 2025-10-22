@@ -18,9 +18,7 @@ export default function AdminProductsClient({ list }: { list: Row[] }) {
             <td>{p.sku}</td>
             <td>{p.priceUGX}</td>
             <td>{p.variants.reduce((s, v) => s + v.stock, 0)}</td>
-            <td>
-              <a className="underline" href={`/admin/products/${p.id}`}>Edit</a>
-            </td>
+            <td><a className="underline" href={`/admin/products/${p.id}`}>Edit</a></td>
           </tr>
         ))}
       </tbody>
