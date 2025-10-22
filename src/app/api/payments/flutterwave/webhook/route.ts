@@ -4,7 +4,7 @@ export const runtime = 'nodejs'
 import { NextResponse } from 'next/server'
 import crypto from 'crypto'
 import { db } from '@/lib/prisma'
-import { sendEmail } from '@/server/mailer'
+import { sendMail } from '@/server/mailer'
 
 
 export async function POST(req: Request){
@@ -22,7 +22,7 @@ if(orderId){
   })
   
   try {
-    await sendEmail(o.email, 'Payment confirmed', `<p>Your payment is confirmed. We will ship in 2 days.</p>`)
+    await sendMail(o.email, 'Payment confirmed', `<p>Your payment is confirmed. We will ship in 2 days.</p>`)
   } catch (error) {
     console.error("Failed to send payment confirmation email:", error)
   }
