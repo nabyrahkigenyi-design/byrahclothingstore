@@ -1,4 +1,5 @@
-import { v2 as cloudinary, type UploadApiResponse } from 'cloudinary'
+// src/lib/upload.ts
+import { v2 as cloudinary } from "cloudinary"
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -6,16 +7,14 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 })
 
-export async function uploadImage(file: File): Promise<{ url: string }> {
+export async function uploadImage(file: File) {
   const buffer = Buffer.from(await file.arrayBuffer())
-
-  const result: UploadApiResponse = await new Promise((resolve, reject) => {
-    const stream = cloudinary.uploader.upload_stream(
-      { folder: 'byrah/products' },
-      (err, res) => (err || !res ? reject(err) : resolve(res))
-    )
-    stream.end(buffer)
-  })
-
-  return { url: result.secure_url }
+  const res: any = await new Promise((resolve, reject) =>
+    cloudinary.uploader
+      .upload_stream({ folder: "byrah/products" }, (err, result) =>
+        err ? reject(err) : resolve(result)
+      )
+      .end(buffer)
+  )
+  return { url: res.secure_url as string }
 }

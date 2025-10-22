@@ -1,7 +1,6 @@
 import { db } from '@/lib/prisma'
 import { NextResponse } from 'next/server'
-import { uploadImageFromFormFile as uploadImage } from '@/lib/upload'
-
+import { uploadImage } from "@/lib/upload"
 export const runtime = 'nodejs'
 
 function slugify(s: string) {

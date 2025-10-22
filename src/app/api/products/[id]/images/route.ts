@@ -1,7 +1,6 @@
 import { db } from '@/lib/prisma'
 import { NextResponse } from 'next/server'
-import { uploadImageFromFormFile } from '@/lib/upload'
-
+import { uploadImage } from "@/lib/upload" 
 export const runtime = 'nodejs'
 
 export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> }) {
@@ -21,7 +20,7 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
   const created: any[] = []
   let pos = start
   for (const f of files) {
-    const { url } = await uploadImageFromFormFile(f)
+    const { url } = await uploadImage(f)
     const rec = await db.image.create({ data: { productId: pid, url, alt: '', position: pos++ } })
     created.push(rec)
   }
