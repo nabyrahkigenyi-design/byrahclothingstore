@@ -24,8 +24,6 @@ const eslintConfig = [
     // Target specific files for relaxed rules if needed, otherwise rules apply globally
     rules: {
       // 1. Relax the strict 'any' rule (the main build blocker)
-      // NOTE: The 'next/typescript' extension likely already includes the TypeScript parser/plugins,
-      // but we add the rules here explicitly.
       "@typescript-eslint/no-explicit-any": "off",
 
       // 2. Relax 'no-unused-vars' and allow ignored variables to start with _
