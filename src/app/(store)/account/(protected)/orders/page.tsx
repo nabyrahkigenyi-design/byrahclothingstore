@@ -1,52 +1,52 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/prisma"
+import Link from "next/link"
 
-export default async function OrdersPage() {
+export default async function AccountHome() {
   const session = await getServerSession(authOptions)
   const email = session?.user?.email || ""
-
   const orders = await db.order.findMany({
     where: { email },
     orderBy: { createdAt: "desc" },
-    include: { items: { include: { product: true, variant: true } } },
+    take: 5,
+    include: { items: true },
   })
 
   return (
-    <div className="rounded-2xl border p-6">
-      <h2 className="text-lg font-semibold mb-4">Your Orders</h2>
-
-      {!orders.length && (
-        <div className="text-sm text-gray-600">No orders yet.</div>
-      )}
-
-      <div className="space-y-4">
-        {orders.map((o) => {
-          // Safe short id rendering regardless of number or string ID
-          const shortId = String(o.id).slice(0, 6).toUpperCase()
-
-          return (
-            <div key={o.id} className="border rounded-xl p-4">
-              <div className="flex items-center justify-between">
-                <div className="font-medium">Order #{shortId}</div>
-                <div className="text-sm">{o.status}</div>
+    <div className="grid md:grid-cols-3 gap-6">
+      <div className="md:col-span-2 rounded-2xl border p-6">
+        <h2 className="text-lg font-semibold mb-4">Recent Orders</h2>
+        {!orders.length && <div className="text-sm text-gray-600">No orders yet.</div>}
+        <div className="divide-y">
+          {orders.map((o) => (
+            <div key={o.id} className="py-3 flex items-center justify-between">
+              <div>
+                <div className="font-medium">
+                  Order #{String(o.id).slice(0, 6).toUpperCase()}
+                </div>
+                <div className="text-xs text-gray-600">
+                  {o.items.length} items • {o.status}
+                </div>
               </div>
-
-              <div className="mt-2 text-sm text-gray-600">
-                {new Date(o.createdAt).toLocaleString()}
-              </div>
-
-              <ul className="mt-3 text-sm list-disc ml-5">
-                {o.items.map((i) => (
-                  <li key={i.id}>
-                    {i.qty} × {i.product.name}
-                    {i.variant?.size ? ` (Size ${i.variant.size})` : ""}
-                  </li>
-                ))}
-              </ul>
+              <div className="text-sm">{new Date(o.createdAt).toLocaleString()}</div>
             </div>
-          )
-        })}
+          ))}
+        </div>
+        <div className="mt-4">
+          <Link className="underline text-sm" href="/account/orders">View all orders</Link>
+        </div>
+      </div>
+
+      <div className="rounded-2xl border p-6">
+        <h2 className="text-lg font-semibold mb-4">Profile</h2>
+        <div className="text-sm">
+          <div><span className="text-gray-500">Name:</span> {session?.user?.name || "—"}</div>
+          <div><span className="text-gray-500">Email:</span> {session?.user?.email || "—"}</div>
+        </div>
+        <div className="mt-4">
+          <Link className="underline text-sm" href="/account/settings">Edit profile</Link>
+        </div>
       </div>
     </div>
   )
