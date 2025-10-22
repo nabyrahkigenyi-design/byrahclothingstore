@@ -1,50 +1,55 @@
-// src/components/home/BrandsMarquee.tsx
 'use client'
 import Image from 'next/image'
+import { useMemo } from 'react'
 
-const LOGOS = [
-  '/brands/brand1.svg',
-  '/brands/brand2.svg',
-  '/brands/brand3.svg',
-  '/brands/brand4.svg',
-  '/brands/brand5.svg',
+type BrandLogo = {
+  src: string
+  alt: string
+  width?: number
+  height?: number
+}
+
+const BRANDS: BrandLogo[] = [
+  { src: '/brands/brand1.svg', alt: 'Brand 1' },
+  { src: '/brands/brand2.svg', alt: 'Brand 2' },
+  { src: '/brands/brand3.svg', alt: 'Brand 3' },
+  { src: '/brands/brand4.svg', alt: 'Brand 4' },
+  { src: '/brands/brand5.svg', alt: 'Brand 5' },
 ]
 
-// duplicate for seamless loop
-const LOOP = [...LOGOS, ...LOGOS]
-
 export default function BrandsMarquee() {
-  return (
-    <div className="relative">
-      {/* edge fades */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-gray-50 to-transparent z-10" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-gray-50 to-transparent z-10" />
+  // duplicate for seamless loop
+  const logos: BrandLogo[] = useMemo(() => [...BRANDS, ...BRANDS], [])
 
-      <div className="overflow-hidden">
-        {/* Start off-screen right with padding-left: 100vw, then scroll left */}
-        <div
-          className="flex gap-28 pl-[100vw] animate-[brands-move_var(--speed)_linear_infinite] will-change-transform"
-          style={{ ['--speed' as any]: '32s' }}
-        >
-          {LOOP.map((src, i) => (
-            <div key={i} className="shrink-0 opacity-90 hover:opacity-100 transition">
-              <Image
-                src={src}
-                alt=""
-                width={320}
-                height={100}
-                className="h-[100px] md:h-[84px] w-auto object-contain"
-                priority={i < 6}
-              />
-            </div>
-          ))}
-        </div>
+  return (
+    <div className="relative overflow-hidden">
+      <div
+        className="flex gap-10 items-center animate-[marquee_22s_linear_infinite]"
+        style={{ width: 'max-content' }}
+        aria-label="Sister brands carousel"
+      >
+        {logos.map((b, i) => (
+          <div key={`${b.src}-${i}`} className="shrink-0 opacity-70 hover:opacity-100 transition-opacity">
+            <Image
+              src={b.src}
+              alt={b.alt}
+              width={b.width ?? 140}
+              height={b.height ?? 40}
+              className="h-10 w-auto"
+              priority={i < 5}
+            />
+          </div>
+        ))}
       </div>
 
-      <style jsx global>{`
-        @keyframes brands-move {
-          from { transform: translateX(0); }
-          to   { transform: translateX(-100%); }
+      {/* gradient edges */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent" />
+
+      <style jsx>{`
+        @keyframes marquee {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
         }
       `}</style>
     </div>
