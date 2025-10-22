@@ -1,34 +1,9 @@
 'use client'
-import { useState } from 'react'
-import Link from 'next/link'
+import type { Product, Variant } from '@prisma/client'
 
-type Row = {
-  id: string
-  name: string
-  sku: string
-  priceUGX: number
-  variants?: { stock: number }[]
-}
+type Row = Product & { variants: Variant[] }
 
-export default function AdminProductsClient({ list = [] as Row[] }:{
-  list?: Row[]
-}){
-  const [rows,setRows] = useState<Array<Row>>(Array.isArray(list) ? list : [])
-
-  async function del(id: string){
-    if(!confirm('Delete this product?')) return
-    const res = await fetch(`/api/products/${id}`, { method:'DELETE' })
-    if(res.ok) setRows(r => r.filter(x => x.id !== id))
-  }
-
-  if(!rows.length){
-    return (
-      <div className="border rounded-xl p-6 text-sm text-gray-600">
-        No products yet.
-      </div>
-    )
-  }
-
+export default function AdminProductsClient({ list }: { list: Row[] }) {
   return (
     <table className="w-full text-sm">
       <thead>
@@ -37,15 +12,14 @@ export default function AdminProductsClient({ list = [] as Row[] }:{
         </tr>
       </thead>
       <tbody>
-        {rows.map(p=>(
+        {list.map(p => (
           <tr key={p.id} className="border-t">
-            <td className="py-2">{p.name}</td>
+            <td>{p.name}</td>
             <td>{p.sku}</td>
-            <td>{p.priceUGX.toLocaleString()}</td>
-            <td>{(p.variants ?? []).reduce((s,v)=>s+Number(v.stock||0),0)}</td>
-            <td className="space-x-3">
-              <Link href={`/admin/products/${p.id}`} className="underline">Edit</Link>
-              <button onClick={()=>del(p.id)} className="text-rose-600 underline">Delete</button>
+            <td>{p.priceUGX}</td>
+            <td>{p.variants.reduce((s, v) => s + v.stock, 0)}</td>
+            <td>
+              <a className="underline" href={`/admin/products/${p.id}`}>Edit</a>
             </td>
           </tr>
         ))}
