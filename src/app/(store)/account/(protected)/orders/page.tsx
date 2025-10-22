@@ -7,6 +7,7 @@ type OrderWithItems = Prisma.OrderGetPayload<{
   include: { items: { include: { product: true; variant: true } } }
 }>
 
+// FIX: This helper converts the ID to a string before slicing, preventing the TypeError.
 const shortId = (id: string | number) => String(id).slice(0, 6).toUpperCase()
 
 export default async function OrdersPage() {
@@ -28,6 +29,7 @@ export default async function OrdersPage() {
         {orders.map((o) => (
           <div key={o.id} className="border rounded-xl p-4">
             <div className="flex items-center justify-between">
+              {/* The fix is here, calling shortId(o.id) */}
               <div className="font-medium">Order #{shortId(o.id)}</div>
               <div className="text-sm">{o.status}</div>
             </div>
