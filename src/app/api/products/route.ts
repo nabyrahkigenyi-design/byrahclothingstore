@@ -1,6 +1,7 @@
 import { db } from '@/lib/prisma'
 import { NextResponse } from 'next/server'
 import { uploadImage } from "@/lib/upload"
+
 export const runtime = 'nodejs'
 
 function slugify(s: string) {
@@ -19,10 +20,15 @@ async function uniqueSlug(base: string) {
 
 export async function GET(req: Request) {
   const url = new URL(req.url)
-  const ids = (url.searchParams.get("ids") || "")
+  const idsParam = (url.searchParams.get("ids") || "")
     .split(",")
     .map(s => s.trim())
     .filter(Boolean)
+
+  // ✅ convert to numbers for Prisma
+  const ids = idsParam
+    .map((v) => Number(v))
+    .filter((n) => Number.isFinite(n)) as number[]
 
   if (!ids.length) return NextResponse.json([], { status: 200 })
 
@@ -61,7 +67,7 @@ export async function POST(req: Request) {
     const rawCatIds = form.getAll('categoryIds').map(String)
     const categoryIds = rawCatIds
       .map(id => Number(id))
-      .filter(n => Number.isFinite(n))
+      .filter(n => Number.isFinite(n)) as number[]
 
     const slug = await uniqueSlug(name)
 
