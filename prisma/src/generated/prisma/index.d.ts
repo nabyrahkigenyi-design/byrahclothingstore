@@ -16607,6 +16607,7 @@ export namespace Prisma {
 
   export type ImageWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    productId_position?: ImageProductIdPositionCompoundUniqueInput
     AND?: ImageWhereInput | ImageWhereInput[]
     OR?: ImageWhereInput[]
     NOT?: ImageWhereInput | ImageWhereInput[]
@@ -16615,7 +16616,7 @@ export namespace Prisma {
     position?: IntFilter<"Image"> | number
     productId?: IntFilter<"Image"> | number
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
-  }, "id">
+  }, "id" | "productId_position">
 
   export type ImageOrderByWithAggregationInput = {
     id?: SortOrder
@@ -16664,6 +16665,7 @@ export namespace Prisma {
 
   export type VariantWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    productId_size?: VariantProductIdSizeCompoundUniqueInput
     AND?: VariantWhereInput | VariantWhereInput[]
     OR?: VariantWhereInput[]
     NOT?: VariantWhereInput | VariantWhereInput[]
@@ -16672,7 +16674,7 @@ export namespace Prisma {
     productId?: IntFilter<"Variant"> | number
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
     orderItems?: OrderItemListRelationFilter
-  }, "id">
+  }, "id" | "productId_size">
 
   export type VariantOrderByWithAggregationInput = {
     id?: SortOrder
@@ -17444,7 +17446,7 @@ export namespace Prisma {
   export type ImageCreateInput = {
     url: string
     alt?: string | null
-    position: number
+    position?: number
     product: ProductCreateNestedOneWithoutImagesInput
   }
 
@@ -17452,7 +17454,7 @@ export namespace Prisma {
     id?: number
     url: string
     alt?: string | null
-    position: number
+    position?: number
     productId: number
   }
 
@@ -17475,7 +17477,7 @@ export namespace Prisma {
     id?: number
     url: string
     alt?: string | null
-    position: number
+    position?: number
     productId: number
   }
 
@@ -18355,6 +18357,11 @@ export namespace Prisma {
     isNot?: ProductWhereInput
   }
 
+  export type ImageProductIdPositionCompoundUniqueInput = {
+    productId: number
+    position: number
+  }
+
   export type ImageCountOrderByAggregateInput = {
     id?: SortOrder
     url?: SortOrder
@@ -18389,6 +18396,11 @@ export namespace Prisma {
     id?: SortOrder
     position?: SortOrder
     productId?: SortOrder
+  }
+
+  export type VariantProductIdSizeCompoundUniqueInput = {
+    productId: number
+    size: string
   }
 
   export type VariantCountOrderByAggregateInput = {
@@ -20254,14 +20266,14 @@ export namespace Prisma {
   export type ImageCreateWithoutProductInput = {
     url: string
     alt?: string | null
-    position: number
+    position?: number
   }
 
   export type ImageUncheckedCreateWithoutProductInput = {
     id?: number
     url: string
     alt?: string | null
-    position: number
+    position?: number
   }
 
   export type ImageCreateOrConnectWithoutProductInput = {
@@ -21487,7 +21499,7 @@ export namespace Prisma {
     id?: number
     url: string
     alt?: string | null
-    position: number
+    position?: number
   }
 
   export type ProductCategoryCreateManyProductInput = {
