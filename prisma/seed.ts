@@ -3,7 +3,7 @@
 // 1. IMPORT & INITIALIZE PRISMA CLIENT
 // FIX APPLIED: We are now using the relative path to the custom output location
 // that was defined in prisma/schema.prisma.
-import { PrismaClient } from './src/generated/prisma'
+import { PrismaClient } from '@prisma/client'
 const db = new PrismaClient()
 
 // ----------------------------------------------------------------------------------
