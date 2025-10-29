@@ -17,7 +17,7 @@ export default function HomeHero(){
   useEffect(()=>{ const t = setInterval(next, 5000); return ()=>clearInterval(t) },[next])
 
   return (
-    <section className="relative h-[56vh] md:h-[68vh] overflow-hidden rounded-2xl">
+    <section className="relative h-[60vh] sm:h-[64vh] md:h-[68vh] overflow-hidden rounded-2xl">
       {slides.map((s,idx)=> (
         <div key={s.src}
           className={`absolute inset-0 transition-opacity duration-700 ${idx===i?'opacity-100':'opacity-0'}`}>
@@ -25,7 +25,7 @@ export default function HomeHero(){
           <div className="absolute inset-0 bg-black/30" />
           <div className="relative z-10 h-full flex items-center">
             <div className="max-w-6xl mx-auto px-4 text-white">
-              <h1 className="text-3xl md:text-5xl font-semibold drop-shadow">{s.title}</h1>
+              <h1 className="text-2xl sm:text-3xl md:text-5xl font-semibold drop-shadow">{s.title}</h1>
               <Link href={s.href} className="inline-block mt-4 bg-white text-black px-5 py-2.5 rounded-md">
                 Shop now
               </Link>

@@ -5,8 +5,6 @@ import { useMemo } from 'react'
 type BrandLogo = {
   src: string
   alt: string
-  width?: number
-  height?: number
 }
 
 const BRANDS: BrandLogo[] = [
@@ -18,31 +16,32 @@ const BRANDS: BrandLogo[] = [
 ]
 
 export default function BrandsMarquee() {
-  // duplicate for seamless loop
   const logos: BrandLogo[] = useMemo(() => [...BRANDS, ...BRANDS], [])
 
   return (
     <div className="relative overflow-hidden">
       <div
-        className="flex gap-10 items-center animate-[marquee_22s_linear_infinite]"
+        className="flex items-center animate-[marquee_22s_linear_infinite]"
         style={{ width: 'max-content' }}
         aria-label="Sister brands carousel"
       >
         {logos.map((b, i) => (
-          <div key={`${b.src}-${i}`} className="shrink-0 opacity-70 hover:opacity-100 transition-opacity">
+          <div
+            key={`${b.src}-${i}`}
+            className="shrink-0 opacity-80 hover:opacity-100 transition-opacity mx-8 sm:mx-12"
+          >
             <Image
               src={b.src}
               alt={b.alt}
-              width={b.width ?? 140}
-              height={b.height ?? 40}
-              className="h-10 w-auto"
+              width={160}
+              height={48}
+              className="h-8 sm:h-10 lg:h-12 w-auto"
               priority={i < 5}
             />
           </div>
         ))}
       </div>
 
-      {/* gradient edges */}
       <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white to-transparent" />
 

@@ -31,39 +31,58 @@ const MEGA: Mega[] = [
 export default function NavMega(){
 const [open, setOpen] = useState<number|null>(null)
 return (
-<nav className="hidden md:flex items-center gap-6">
-{MEGA.map((m,i)=> (
-<div key={m.slug}
-onMouseEnter={()=>setOpen(i)} onMouseLeave={()=>setOpen(o=>o===i?null:o)}
-className="relative">
-<Link href={`/${m.slug}`} className="flex items-center gap-1 hover:opacity-80">
-<span className="font-medium">{m.label}</span>
-<ChevronDown className="h-4 w-4" />
-</Link>
-<AnimatePresence>
-{open===i && (
-<motion.div initial={{opacity:0, y:8}} animate={{opacity:1, y:0}} exit={{opacity:0,y:8}}
-className="absolute left-1/2 -translate-x-1/2 top-10 z-40 w-[820px] bg-white/95 backdrop-blur shadow-xl rounded-2xl p-6 grid grid-cols-3 gap-6">
-<div className="col-span-2 grid grid-cols-2 gap-6">
-{m.groups.map((g,gi)=> (
-<div key={gi}>
-{g.title && <div className="text-xs uppercase text-gray-500 mb-2">{g.title}</div>}
-<ul className="space-y-2">
-{g.items.map(it=> (
-<li key={it.slug}><Link href={`/${m.slug}?c=${it.slug}`} className="hover:underline">{it.name}</Link></li>
-))}
-</ul>
-</div>
-))}
-</div>
-<div className="relative h-44 rounded-xl overflow-hidden">
-{m.hero && <Image src={m.hero} alt="category" fill className="object-cover"/>}
-</div>
-</motion.div>
-)}
-</AnimatePresence>
-</div>
-))}
-</nav>
+<>
+  {/* 1. MOBILE SCROLLABLE CHIPS (Hidden on md: and up) */}
+  <div className="md:hidden w-full overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] border-b bg-background z-10 sticky top-0">
+    <div className="flex gap-3 px-4 py-2 snap-x snap-mandatory">
+      {MEGA.map((m) => (
+        <Link
+          key={m.slug}
+          href={`/${m.slug}`}
+          // Chip styling for mobile/tablet tap targets
+          className="snap-start shrink-0 rounded-full border bg-secondary/10 px-3 py-1.5 text-sm whitespace-nowrap hover:bg-secondary/30 transition-colors text-primary font-medium"
+        >
+          {m.label}
+        </Link>
+      ))}
+    </div>
+  </div>
+
+  {/* 2. DESKTOP MEGA MENU (Original structure, hidden on small screens) */}
+  <nav className="hidden md:flex items-center gap-6">
+    {MEGA.map((m,i)=> (
+      <div key={m.slug}
+        onMouseEnter={()=>setOpen(i)} onMouseLeave={()=>setOpen(o=>o===i?null:o)}
+        className="relative">
+        <Link href={`/${m.slug}`} className="flex items-center gap-1 hover:opacity-80">
+          <span className="font-medium">{m.label}</span>
+          <ChevronDown className="h-4 w-4" />
+        </Link>
+        <AnimatePresence>
+          {open===i && (
+            <motion.div initial={{opacity:0, y:8}} animate={{opacity:1, y:0}} exit={{opacity:0,y:8}}
+              className="absolute left-1/2 -translate-x-1/2 top-10 z-40 w-[820px] bg-white/95 backdrop-blur shadow-xl rounded-2xl p-6 grid grid-cols-3 gap-6">
+              <div className="col-span-2 grid grid-cols-2 gap-6">
+                {m.groups.map((g,gi)=> (
+                  <div key={gi}>
+                    {g.title && <div className="text-xs uppercase text-gray-500 mb-2">{g.title}</div>}
+                    <ul className="space-y-2">
+                      {g.items.map(it=> (
+                        <li key={it.slug}><Link href={`/${m.slug}?c=${it.slug}`} className="hover:underline">{it.name}</Link></li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+              <div className="relative h-44 rounded-xl overflow-hidden">
+                {m.hero && <Image src={m.hero} alt="category" fill className="object-cover"/>}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    ))}
+  </nav>
+</>
 )
 }

@@ -120,3 +120,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Mobile: prevent accidental horizontal scrollbars */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
