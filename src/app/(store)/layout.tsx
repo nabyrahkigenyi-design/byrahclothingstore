@@ -1,3 +1,6 @@
+// src/app/(store)/layout.tsx
+import Link from 'next/link'
+import Image from 'next/image'
 import TopBar from '@/components/header/TopBar'
 import NavMega from '@/components/header/NavMega'
 import CartButton from '@/components/header/CartButton'
@@ -14,30 +17,34 @@ export const metadata = {
 
 export default function StoreLayout({ children }:{children:React.ReactNode}) {
   return (
-    <html lang="en">
-      <body>
-        <TopBar />
-        <header className="border-b">
-          <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
-            <a href="/" className="flex items-center gap-2 shrink-0">
-              <img src="/logo.png" alt="Byrah" className="h-8 w-auto" />
-            </a>
+    <>
+      <TopBar />
 
-            <div className="hidden md:block flex-1">
-              <div className="flex items-center justify-center">
-                <NavMega />
-              </div>
-            </div>
+      <header className="border-b">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+          <Link href="/" className="flex items-center gap-2 shrink-0">
+            <Image src="/logo.png" alt="Byrah" width={120} height={32} className="h-8 w-auto" />
+          </Link>
 
-            <div className="flex items-center gap-4">
-              <AccountButton />
-              <CartButton />
+          {/* Desktop navigation */}
+          <div className="hidden md:block flex-1">
+            <div className="flex items-center justify-center">
+              <NavMega />
             </div>
           </div>
-        </header>
+
+          <div className="flex items-center gap-4">
+            <AccountButton />
+            <CartButton />
+          </div>
+        </div>
+      </header>
+
+      <main className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         {children}
-        <Footer />
-      </body>
-    </html>
+      </main>
+
+      <Footer />
+    </>
   )
 }
