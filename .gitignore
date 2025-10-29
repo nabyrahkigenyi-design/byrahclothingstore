@@ -41,3 +41,5 @@ coverage/
 Upload caches
 
 public/tmp/
+/prisma/src/generated
+/.prisma
