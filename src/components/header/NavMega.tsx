@@ -33,7 +33,7 @@ const [open, setOpen] = useState<number|null>(null)
 return (
 <>
   {/* 1. MOBILE SCROLLABLE CHIPS (Hidden on md: and up) */}
-  <div className="md:hidden w-full overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] border-b bg-background z-20 sticky top-0 will-change-transform">
+  <div className="md:hidden w-full overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] border-b bg-background z-10 sticky top-0">
     <div className="flex gap-3 px-4 py-2 snap-x snap-mandatory">
       {MEGA.map((m) => (
         <Link
